@@ -1,0 +1,2 @@
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t((e="undefined"!=typeof globalThis?globalThis:e||self).emmetSlot={})}(this,(function(e){"use strict";class t extends HTMLElement{connectedCallback(){const e=this.style;e.display||(e.display="contents")}}"object"==typeof customElements&&customElements.define("emmet-slot",t),e.EmmetSlot=t,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=emmet-slot.js.map
