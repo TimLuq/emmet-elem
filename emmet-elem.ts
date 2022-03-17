@@ -243,7 +243,7 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-        let end = string.search(/[^a-z-]/);
+        let end = string.search(/[^\p{L}\p{N}_-]/u);
         if (end === -1) {
             if (!string) {
                 xp += 1;
@@ -295,15 +295,15 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
             }
             string = string.substring(end);
             if (string.startsWith("#")) {
-                end = string.search(/[^a-zA-Z0-9_#-]/);
-                if (end === -1) {
+                end = string.substring(1).search(/[^\p{L}\p{N}_-]/u) + 1;
+                if (end === 0) {
                     end = string.length;
                 }
                 curr.id = string.substring(1, end);
                 string = string.substring(end);
             }
             while (string.startsWith(".")) {
-                end = string.substring(1).search(/[^a-zA-Z0-9_-]/) + 1;
+                end = string.substring(1).search(/[^\p{L}\p{N}_-]/u) + 1;
                 if (end === 0) {
                     end = string.length;
                 }

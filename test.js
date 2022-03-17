@@ -87,18 +87,18 @@ const testEnv = {
     },
 
     test_static(assert) {
-        const root = emmet`main.main-content[role=main]>div#list.page+test-elem#seldoc.page+span#v404.page+span#v500.page^span#snack`;
+        const root = emmet`main.main-content[role=main]>div#list.page-1a+test-elem111#seldoc.page-1a+span#v404.page-1a+span#v500.page-1a^span#snack`;
 
         assert(() => eq_joined(serializeToString(root), [
             `<main class="main-content" role="main">`,
-            `<div id="list" class="page" />`,
-            `<test-elem id="seldoc" class="page" />`,
-            `<span id="v404" class="page" />`,
-            `<span id="v500" class="page" />`,
+            `<div id="list" class="page-1a" />`,
+            `<test-elem111 id="seldoc" class="page-1a" />`,
+            `<span id="v404" class="page-1a" />`,
+            `<span id="v500" class="page-1a" />`,
             `</main>`,
             `<span id="snack" />`
         ]));
-    }
+    },
 }
 
 function eq_joined(data, ref) {
