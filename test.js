@@ -77,14 +77,40 @@ const testEnv = {
         })*3)+d+e>${4 * 1}`;
 
         
-        assert(() => serializeToString(root) == [
+        assert(() => eq_joined(serializeToString(root), [
             `<a id="a">`,
             `<b class="clss">0&lt;0/6&gt;0&lt;1/6&gt;</b><c>1&lt;0/3&gt;</c>`,
             `<b class="clss">0&lt;2/6&gt;0&lt;3/6&gt;</b><c>1&lt;1/3&gt;</c>`,
             `<b class="clss">0&lt;4/6&gt;0&lt;5/6&gt;</b><c>1&lt;2/3&gt;</c>`,
             `</a><d /><e>4</e>`
-        ].join(""));
+        ]));
     },
+
+    test_static(assert) {
+        const root = emmet`main.main-content[role=main]>div#list.page+test-elem#seldoc.page+span#v404.page+span#v500.page^span#snack`;
+
+        assert(() => eq_joined(serializeToString(root), [
+            `<main class="main-content" role="main">`,
+            `<div id="list" class="page" />`,
+            `<test-elem id="seldoc" class="page" />`,
+            `<span id="v404" class="page" />`,
+            `<span id="v500" class="page" />`,
+            `</main>`,
+            `<span id="snack" />`
+        ]));
+    }
+}
+
+function eq_joined(data, ref) {
+    for (let i = 0; i < ref.length; i++) {
+        if (data.startsWith(ref[i])) {
+            data = data.substring(ref[i].length);
+            continue;
+        }
+        console.warn("  part failed: ", JSON.stringify(data), ".startsWith(", JSON.stringify(ref[i]), ")");
+        return false;
+    }
+    return data.length == 0;
 }
 
 

@@ -319,27 +319,27 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
                         throw new Error("eof in emmet attribute");
                     }
                     const name = string.substring(0, mid);
-                    const oc = string.at(mid);
+                    const oc = string.charAt(mid);
                     if (oc === "=") {
                         let off;
-                        if (string.at(mid + 1) == "\"") {
+                        if (string.charAt(mid + 1) == "\"") {
                             string = string.substring(mid + 2);
                             end = string.indexOf("\"");
                             if (end === -1) {
                                 throw new Error("eof in emmet attribute value");
                             }
-                            off = 2;
+                            off = 1;
                         } else {
                             string = string.substring(mid + 1);
                             end = string.search(/[\] ]/);
                             if (end === -1) {
                                 throw new Error("eof in emmet attribute value");
                             }
-                            off = 1;
+                            off = 0;
                         }
                         const val = string.substring(0, end);
                         end += off;
-                        const c = string.at(end);
+                        const c = string.charAt(end);
                         string = string.substring(end + 1);
                         curr.setAttribute(name, val);
                         if (c == " ") {

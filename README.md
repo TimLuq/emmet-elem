@@ -56,7 +56,7 @@ assert(() => serializeToString(root) == [
     `<b class="clss">0&lt;0/6&gt;0&lt;1/6&gt;</b><c>1&lt;0/3&gt;</c>`,
     `<b class="clss">0&lt;2/6&gt;0&lt;3/6&gt;</b><c>1&lt;1/3&gt;</c>`,
     `<b class="clss">0&lt;4/6&gt;0&lt;5/6&gt;</b><c>1&lt;2/3&gt;</c>`,
-    `</a><d /><e>4</e>`
+    `</a><d /><e>8</e>`
 ].join(""));
 ```
 
