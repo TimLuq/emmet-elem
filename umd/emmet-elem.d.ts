@@ -4,7 +4,7 @@
  * @param document the default document object to use for node creation
  */
 export declare function setDefDoc(document: Document): void;
-export declare type EmmetCallback<P extends Element | DocumentFragment = Element | DocumentFragment> = (i: number, c: number, n: number, p: P) => string | number | Node | null | undefined;
+export type EmmetCallback<P extends Element | DocumentFragment = Element | DocumentFragment> = (i: number, c: number, n: number, p: P) => string | number | Node | null | undefined;
 /**
  * A slot in the generated emmet structure.
  * Although this is an element, use only the methods and properties that manipulate its children.
