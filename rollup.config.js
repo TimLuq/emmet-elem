@@ -40,6 +40,26 @@ const config = [
         external: ["htmlparser2", "fs/promises"]
     },
     {
+        input: [
+            "emmet-elem.ts",
+            "emmet-slot.ts",
+            "emmet-compress.ts",
+            "emmet-loader.ts"
+        ],
+        output: {
+            dir: "./cjs",
+            sourcemap: true,
+            format: "cjs",
+            entryFileNames: "[name].cjs",
+        },
+        plugins: [
+            typescript(),
+            summary(),
+            terser(terserOptions),
+        ],
+        external: ["htmlparser2", "fs/promises"]
+    },
+    {
         input: "emmet-elem.ts",
         output: {
             dir: "./umd",
