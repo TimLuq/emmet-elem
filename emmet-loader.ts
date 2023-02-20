@@ -3,7 +3,7 @@ import type { IParserConstructor } from "./emmet-compress.js";
 //import type { IEmmetConfig } from "./emmet-elem.js";
 
 const wrap = (str: string) => {
-    return `import emmet from "emmet-elem";const f=()=>emmet(${JSON.stringify(str)});export default f;`;
+    return `import { emmet } from "emmet-elem";const f=()=>emmet(${JSON.stringify(str)});export default f;`;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
