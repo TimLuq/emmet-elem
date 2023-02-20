@@ -82,7 +82,7 @@ const testEnv = {
             `<b class="clss">0&lt;0/6&gt;0&lt;1/6&gt;</b><c>1&lt;0/3&gt;</c>`,
             `<b class="clss">0&lt;2/6&gt;0&lt;3/6&gt;</b><c>1&lt;1/3&gt;</c>`,
             `<b class="clss">0&lt;4/6&gt;0&lt;5/6&gt;</b><c>1&lt;2/3&gt;</c>`,
-            `</a><d /><e>4</e>`
+            `</a><d/><e>4</e>`
         ]));
     },
 
@@ -91,12 +91,24 @@ const testEnv = {
 
         assert(() => eq_joined(serializeToString(root), [
             `<main class="main-content" role="main">`,
-            `<div id="list" class="page-1a" />`,
-            `<test-elem111 id="seldoc" class="page-1a" />`,
-            `<span id="v404" class="page-1a" />`,
-            `<span id="v500" class="page-1a" />`,
+            `<div id="list" class="page-1a"/>`,
+            `<test-elem111 id="seldoc" class="page-1a"/>`,
+            `<span id="v404" class="page-1a"/>`,
+            `<span id="v500" class="page-1a"/>`,
             `</main>`,
-            `<span id="snack" />`
+            `<span id="snack"/>`
+        ]));
+    },
+
+    test_namespace(assert) {
+        const root = emmet`main>svg[xmlns=http://www.w3.org/2000/svg]>circle[fill=red r=50 cx=50 cy=50]^svg:svg[xmlns:svg=http://www.w3.org/2000/svg]>svg:circle#a[fill=red r=50 cx=50 cy=50 xmlns:xlink=http://www.w3.org/1999/xlink xlink:href="#a"]`;
+        const seri = serializeToString(root);
+        assert(() => eq_joined(seri, [
+            `<main>`,
+            `<svg xmlns="http://www.w3.org/2000/svg"><circle fill="red" r="50" cx="50" cy="50"/></svg>`,
+            `<svg:svg xmlns:svg="http://www.w3.org/2000/svg">`,
+            `<svg:circle id="a" fill="red" r="50" cx="50" cy="50" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#a"/>`,
+            `</svg:svg></main>`
         ]));
     },
 }

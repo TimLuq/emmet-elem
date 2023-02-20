@@ -240,10 +240,11 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
     let attachTo: DocumentFragment | Element | undefined = undefined;
     let xp = 0;
     let string = strings[0];
+    let nsaware = false;
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-        let end = string.search(/[^\p{L}\p{N}_-]/u);
+        let end = string.search(/[^\p{L}\p{N}:_-]/u);
         if (end === -1) {
             if (!string) {
                 xp += 1;
@@ -279,7 +280,17 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
             }
         } else {
             const tag = string.substring(0, end);
-            const elem = doc.createElement(tag);
+            let ns: null | string = null;
+            const pfxlen = tag.indexOf(":");
+            if (pfxlen != -1 && !nsaware) {
+                nsaware = true;
+            }
+            const pfx = pfxlen == -1 ? null : tag.substring(0, pfxlen);
+            const xmlnsOverride = pfx ? "xmlns:" + pfx : "xmlns";
+            if (nsaware && curr) {
+                ns = curr.lookupNamespaceURI(pfx);
+            } 
+            const elem: Element = doc.createElementNS(ns, tag);
             if (!curr) {
                 base = elem;
             } else {
@@ -341,7 +352,33 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
                         end += off;
                         const c = string.charAt(end);
                         string = string.substring(end + 1);
-                        curr.setAttribute(name, val);
+                        if (name == xmlnsOverride) {
+                            nsaware = true;
+                            const nselem: Element = doc.createElementNS(val, curr.tagName);
+                            for (const a of curr.attributes) {
+                                nselem.setAttributeNS(a.namespaceURI, a.name, a.value);
+                            }
+                            if (base == curr) {
+                                base = nselem;
+                            } else {
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                const p = curr.parentNode!;
+                                p.removeChild(curr);
+                                p.appendChild(nselem);
+                            }
+                            curr = nselem;
+                        }
+                        if (name == "xmlns" || name.startsWith("xmlns:")) {
+                            curr.setAttributeNS("http://www.w3.org/2000/xmlns/", name, val);
+                        } else {
+                            const nsp = name.indexOf(":");
+                            const ns = nsp == -1 ? null : curr.lookupNamespaceURI(name.substring(0, nsp));
+                            if (ns) {
+                                curr.setAttributeNS(ns, name, val);
+                            } else {
+                                curr.setAttribute(name, val);
+                            }
+                        }
                         if (c == " ") {
                             continue;
                         }
@@ -358,7 +395,7 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
                         if (oc == "]") {
                             break;
                         }
-                        throw new Error("expected end or space after emmet attribute value");
+                        throw new Error("expected eq, end, or space after emmet attribute name");
                     }
                 }
             }

@@ -1,8 +1,8 @@
-interface IParser {
+export interface IParser {
     write(str: string): void;
     end(): void;
 }
-interface IParserConstructor {
+export interface IParserConstructor {
     new (config: Walker): IParser;
 }
 
