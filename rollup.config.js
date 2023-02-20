@@ -37,7 +37,7 @@ const config = [
             summary(),
             terser(terserOptions),
         ],
-        external: ["htmlparser2"]
+        external: ["htmlparser2", "fs/promises"]
     },
     {
         input: "emmet-elem.ts",
@@ -71,13 +71,27 @@ const config = [
             dir: "./umd",
             sourcemap: true,
             format: "umd",
-            name: "emmetSlot",
+            name: "emmetCompress",
         },
         plugins: [
             typescript({ declaration: true, declarationDir: "./umd" }),
             terser(terserOptions),
         ],
         external: ["htmlparser2"]
+    },
+    {
+        input: "emmet-loader.ts",
+        output: {
+            dir: "./umd",
+            sourcemap: true,
+            format: "umd",
+            name: "emmetLoader",
+        },
+        plugins: [
+            typescript({ declaration: true, declarationDir: "./umd" }),
+            terser(terserOptions),
+        ],
+        external: ["htmlparser2", "fs/promises"]
     },
 ];
 
