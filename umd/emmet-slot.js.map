@@ -1,1 +1,0 @@
-{"version":3,"file":"emmet-slot.js","sources":["../emmet-slot.ts"],"sourcesContent":[null],"names":["EmmetSlot","HTMLElement","connectedCallback","s","this","style","display","customElements","define"],"mappings":"6BAIM,MAAOA,UAAkBC,YACpBC,oBACH,MAAMC,EAAIC,KAAKC,MACVF,EAAEG,UACHH,EAAEG,QAAU,WAEnB,EAGwB,iBAAlBC,gBACPA,eAAeC,OAAO,aAAcR"}
