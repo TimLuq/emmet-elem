@@ -1,6 +1,6 @@
 {
   "name": "emmet-elem",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Lightweight emmet expansion to DOM",
   "main": "emmet-elem.js",
   "module": "emmet-elem.js",

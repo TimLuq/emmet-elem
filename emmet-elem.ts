@@ -267,6 +267,7 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
     let string = strings[0];
     let nsaware = false;
     let prevLen: number;
+    const defNs = doc.lookupNamespaceURI(null);
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -307,7 +308,7 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
             }
         } else {
             const tag = string.substring(0, end);
-            let ns: null | string = null;
+            let ns: null | string = defNs;
             const pfxlen = tag.indexOf(":");
             if (pfxlen != -1 && !nsaware) {
                 nsaware = true;
