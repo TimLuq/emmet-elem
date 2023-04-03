@@ -66,6 +66,7 @@ const config = [
             sourcemap: true,
             format: "umd",
             name: "emmetElem",
+            exports: "named",
         },
         plugins: [
             typescript({ declaration: true, declarationDir: "./umd" }),
@@ -79,6 +80,7 @@ const config = [
             sourcemap: true,
             format: "umd",
             name: "emmetSlot",
+            exports: "named",
         },
         plugins: [
             typescript({ declaration: true, declarationDir: "./umd" }),
@@ -92,6 +94,7 @@ const config = [
             sourcemap: true,
             format: "umd",
             name: "emmetCompress",
+            exports: "named",
         },
         plugins: [
             typescript({ declaration: true, declarationDir: "./umd" }),
@@ -106,6 +109,7 @@ const config = [
             sourcemap: true,
             format: "umd",
             name: "emmetLoader",
+            exports: "named",
         },
         plugins: [
             typescript({ declaration: true, declarationDir: "./umd" }),

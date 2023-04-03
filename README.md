@@ -1,6 +1,6 @@
 # emmet-elem
 
-A small standalone library (1.7k gzipped) containing the logic behind parsing Emmet syntax and building a caching DOM tree.
+A small standalone library (~2k gzipped) containing the logic behind parsing Emmet syntax and building a caching DOM tree.
 
 The provided functions are `emmetSlots(strings, options = undefined)`, `slotted(template, ...nodeData)`, and `emmet(template, ...nodeData)`.
 

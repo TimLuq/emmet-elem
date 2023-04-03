@@ -10,7 +10,7 @@ let defDoc: undefined | Document = undefined;
 
 /**
  * Sets the default document to use when no one is specified.
- * If this hasen't been set, an attept is made to read the global `document` object.
+ * If this hasn't been set, an attempt is made to read the global `document` object.
  * @param document the default document object to use for node creation
  */
 export function setDefDoc(document: Document) {
@@ -61,6 +61,9 @@ export interface IEmmetSlots {
     length: number;
     [index: number]: undefined | IEmmetSlot | IEmmetSlot[];
 }
+/**
+ * Config
+ */
 export interface IEmmetConfig<D extends Document = Document> {
     doc: D,
     cache: Map<readonly string[] | string, Element | DocumentFragment>,
@@ -73,10 +76,14 @@ export interface ISlottedEmmet<T extends Element | DocumentFragment, D extends D
 }
 
 /**
+ * Parses the emmet string or template string array and returns the root element and the slots created.
+ * The actual type in the returned `root` depends on the `strings` parameter and the default document.
  * 
- * @param strings 
- * @param values 
- * @returns 
+ * @template T the type of the root element, defaults to `Element | DocumentFragment`
+ * @template D the type of the document, defaults to `Document`
+ * @param {readonly string[] | string} strings the emmet string or template string array
+ * @param {Readonly<Partial<IEmmetConfig<D>>> | undefined} options optional config object
+ * @returns {ISlottedEmmet<T, D>} the root element and the slots created if the `strings` parameter was a string array
  */
 export function emmetSlots<T extends Element | DocumentFragment = Element | DocumentFragment, D extends Document = Document>(strings: readonly string[] | string, options?: Readonly<Partial<IEmmetConfig<D>>>): ISlottedEmmet<T, D> {
     const dd = defDoc || (typeof document == "undefined" ? undefined : document);
@@ -114,6 +121,15 @@ export function emmetSlots<T extends Element | DocumentFragment = Element | Docu
 function isTemplateStringsArray(arr: TemplateStringsArray | readonly string[]): arr is TemplateStringsArray {
     return Array.isArray((arr as TemplateStringsArray).raw);
 }
+/**
+ * Parses the emmet string or template string array and returns the root element and the slots created.
+ * The actual type in the returned `root` depends on the `strings` parameter and the default document.
+ * 
+ * @template T the type of the root element, defaults to `Element | DocumentFragment`
+ * @param {TemplateStringsArray | string[] | string} strings segments of the emmet string
+ * @param {Array} values values to initially fill the slots with
+ * @returns {ISlottedEmmet<T, Document>} the root element and the slots created.
+ */
 export function slotted<T extends Element | DocumentFragment = Element | DocumentFragment>(strings: TemplateStringsArray | string[] | string, ...values: (string | number | Node | null | EmmetCallback<IEmmetSlot> | Promise<string | number | Node | null | undefined> | undefined)[]): ISlottedEmmet<T, Document> {
     const o = emmetSlots<T, Document>(strings);
     if (!values || values.length == 0) {
@@ -177,6 +193,15 @@ export function slotted<T extends Element | DocumentFragment = Element | Documen
     return o;
 }
 
+/**
+ * Parses the emmet string or template string array and returns the root element.
+ * The actual type in the returned value depends on the `strings` parameter and the default document.
+ * 
+ * @template T the type of the root element, defaults to `Element | DocumentFragment`
+ * @param {TemplateStringsArray | string[] | string} strings segments of the emmet string
+ * @param {(string | number | Node | null | EmmetCallback<Element | DocumentFragment> | undefined)[]} values values to replace the slots with
+ * @returns {T} the root element
+ */
 export function emmet<T extends Element | DocumentFragment = Element | DocumentFragment>(strings: TemplateStringsArray | string[] | string, ...values: (string | number | Node | null | EmmetCallback<Element | DocumentFragment> | undefined)[]): T {
     const { doc, root, slots } = emmetSlots<T>(strings);
     if (!values || values.length == 0) {
@@ -241,9 +266,11 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
     let xp = 0;
     let string = strings[0];
     let nsaware = false;
+    let prevLen: number;
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
+        prevLen = string.length;
         let end = string.search(/[^\p{L}\p{N}:_-]/u);
         if (end === -1) {
             if (!string) {
@@ -491,6 +518,9 @@ function parseEmmet(doc: Document, strings: readonly string[]): Element | Docume
             }
             string = string.substring(1);
             continue;
+        }
+        if (prevLen == string.length) {
+            throw new Error("unexpected character in emmet: " + string.charAt(0));
         }
     }
 

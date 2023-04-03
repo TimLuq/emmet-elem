@@ -1,11 +1,68 @@
 {
   "name": "emmet-elem",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Lightweight emmet expansion to DOM",
   "main": "emmet-elem.js",
   "module": "emmet-elem.js",
-  "browser": "emmet-elem.umd.js",
+  "browser": "umd/emmet-elem.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./emmet-elem.ts",
+      "node": {
+        "import": "./emmet-elem.js",
+        "default": "./cjs/emmet-elem.cjs"
+      },
+      "default": {
+        "import": "./emmet-elem.js",
+        "default": "./umd/emmet-elem.js"
+      }
+    },
+    "./emmet-elem.js": {
+      "types": "./emmet-elem.ts",
+      "node": {
+        "import": "./emmet-elem.js",
+        "default": "./cjs/emmet-elem.cjs"
+      },
+      "default": {
+        "import": "./emmet-elem.js",
+        "default": "./umd/emmet-elem.js"
+      }
+    },
+    "./emmet-compress.js": {
+      "types": "./emmet-compress.ts",
+      "node": {
+        "import": "./emmet-compress.js",
+        "default": "./cjs/emmet-compress.cjs"
+      },
+      "default": {
+        "import": "./emmet-compress.js",
+        "default": "./umd/emmet-compress.js"
+      }
+    },
+    "./emmet-loader.js": {
+      "types": "./emmet-loader.ts",
+      "node": {
+        "import": "./emmet-loader.js",
+        "default": "./cjs/emmet-loader.cjs"
+      },
+      "default": {
+        "import": "./emmet-loader.js",
+        "default": "./umd/emmet-loader.js"
+      }
+    },
+    "./emmet-slot.js": {
+      "types": "./emmet-slot.ts",
+      "node": {
+        "import": "./emmet-slot.js",
+        "default": "./cjs/emmet-slot.cjs"
+      },
+      "default": {
+        "import": "./emmet-slot.js",
+        "default": "./umd/emmet-slot.js"
+      }
+    }
+  },
   "scripts": {
     "build": "rollup -c",
     "test": "node ./test.js"
@@ -28,17 +85,17 @@
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^11.0.0",
-    "@types/node": "^18.14.0",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
-    "eslint": "^8.34.0",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "^8.37.0",
     "fallback-dom": "github:timluq/fallback-dom",
-    "htmlparser2": "^8.0.1",
-    "rollup": "^3.17.1",
+    "htmlparser2": "^8.0.2",
+    "rollup": "^3.20.2",
     "rollup-plugin-summary": "^2.0.0",
     "typescript": "^4.9.5"
   },
   "peerDependencies": {
-    "htmlparser2": "^8.0.1"
+    "htmlparser2": "^8.0.2"
   }
 }
